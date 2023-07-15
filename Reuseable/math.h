@@ -12,6 +12,8 @@
 #include <memory>
 #include <chrono>
 
+#include "randomsfml.h"
+
 class Math {
     public:
         static constexpr float Exponent = 7;
@@ -45,7 +47,11 @@ class Math {
             return sf::Vector2f(x, y);
         }
 
+        //clockwise
         static sf::Vector2f spinPoint(const sf::Vector2f point, const sf::Vector2f center, float angleDegrees) {
+            if (angleDegrees < 0 || angleDegrees > 360) { std::cout << "Wrong angle"; return getUpVec();}
+            angleDegrees = 360 - angleDegrees; //clockwise it
+
             sf::Transform transform;
             transform.translate(center);
             transform.rotate(angleDegrees);
@@ -68,6 +74,20 @@ class Math {
 
         static sf::Vector2f normalizeVec(sf::Vector2f vec) {
             return scaleVec(vec, 1/Length(vec));
+        }
+
+        static sf::Vector2f getDirectionVecWithAngle(float angle) {
+            if (angle < 0 || angle > 360) {std::cout << "Invalid angle!"; return getUpVec();}
+
+            sf::Vector2f spinVec = spinPoint(getUpVec(), sf::Vector2f(0, 0), angle);
+            return spinVec;
+        }
+
+        static sf::Vector2f getRandomDirectionVecWithAngleRange(float angleMin, float angleMax) {
+            if (angleMin < 0 || angleMax > 360 || angleMin > angleMax) {std::cout << "Invalid random range angle!"; return getUpVec();}
+            
+            float randomAngle = Randomize::rand.RandomInt((int) angleMin, (int) angleMax);
+            return getDirectionVecWithAngle(randomAngle);
         }
 
         static bool CheckSimilarPoint(sf::Vector2f a1, sf::Vector2f a2, bool debug = false) {

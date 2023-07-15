@@ -2,6 +2,7 @@
 
 #include "Reuseable/gameManager.h"
 #include "Reuseable/randomsfml.h"
+#include "Reuseable/math.h"
 
 #include "Brownian/brownian.h"
 
@@ -21,7 +22,13 @@ sf::Vector2u GameManager::originalResolution    = sf::Vector2u(1920, 1080);
 //game-related var
 Brownian brownianManager;
 
+void Test() {
+
+}
+
 void Initialize() {
+    Test();
+
     GameManager::InitializeWindowWithResolution(&window);
     brownianManager.Initialize();
 }
@@ -36,6 +43,10 @@ void Visualize(sf::Event event) {
 
 void LateUpdate(sf::Event event) {
     brownianManager.LateUpdate();
+}
+
+void Reset() {
+    
 }
 
 void MainGameLoop() {

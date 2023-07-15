@@ -21,6 +21,7 @@ public:
     virtual void Update(sf::Event event)    = 0;
     virtual void Visualize(sf::Event event) = 0;
     virtual void LateUpdate()               = 0;
+    virtual void Reset()                    = 0;
 };
 
 
