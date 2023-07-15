@@ -58,6 +58,18 @@ class Math {
             return sf::Vector2f(a.x, a.y);
         }
 
+        static sf::Vector2f getUpVec() {
+            return sf::Vector2f(0, 1);
+        }
+
+        static sf::Vector2f scaleVec(sf::Vector2f vec, float factor) {
+            return vec * factor;
+        }
+
+        static sf::Vector2f normalizeVec(sf::Vector2f vec) {
+            return scaleVec(vec, 1/Length(vec));
+        }
+
         static bool CheckSimilarPoint(sf::Vector2f a1, sf::Vector2f a2, bool debug = false) {
             const float epsilon = 0.001;
             if (std::abs(a1.x - a2.x) <= epsilon && std::abs(a1.y - a2.y) <= epsilon) {

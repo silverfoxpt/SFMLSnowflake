@@ -1,7 +1,5 @@
 #include "gameManager.h"
 
-sf::Vector2u GameManager::originalResolution = sf::Vector2u(1920, 1080);
-
 sf::Vector2f GameManager::convertWorldToScreen(sf::Vector2f world) {
     return sf::Vector2f(world.x, -world.y);
 }
