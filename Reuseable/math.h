@@ -49,7 +49,10 @@ class Math {
 
         //clockwise
         static sf::Vector2f spinPoint(const sf::Vector2f point, const sf::Vector2f center, float angleDegrees) {
-            if (angleDegrees < 0 || angleDegrees > 360) { std::cout << "Wrong angle"; return getUpVec();}
+            //if (angleDegrees < 0 || angleDegrees > 360) { std::cout << "Wrong angle"; return getUpVec();}
+            if (angleDegrees < 0) {
+                angleDegrees = 360 + angleDegrees;
+            }
             angleDegrees = 360 - angleDegrees; //clockwise it
 
             sf::Transform transform;
@@ -73,7 +76,7 @@ class Math {
         }
 
         static sf::Vector2f normalizeVec(sf::Vector2f vec) {
-            return scaleVec(vec, 1/Length(vec));
+            return scaleVec(vec, 1.0/Length(vec));
         }
 
         static sf::Vector2f getDirectionVecWithAngle(float angle) {
@@ -129,6 +132,32 @@ class Math {
                 return sf::Vector2i(x1 + t*(x2-x1), y1 + t*(y2-y1));
             }
             return sf::Vector2i(-99999, -99999);
+        }
+
+        static bool CircleIntersect(sf::Vector2f center1, float rad1, sf::Vector2f center2, float rad2) {
+            // Calculate the distance between the centers of the circles
+            float distance = Distance(center1, center2);
+
+            // Check if the distance is less than the sum of the radii
+            if (distance <= rad1 + rad2) {
+                // Circles intersect
+                return true;
+            }
+
+            // Circles do not intersect
+            return false;
+        }
+
+        static float toRad(float degree) {
+            return degree * (M_PI / 180.0);
+        }
+
+        static float clamp(float start, float end, float value) {
+            if (start > end) {std::cout << "Clamp Error" << '\n'; return value; }
+            value = std::max(value, start);
+            value = std::min(value, end);
+
+            return value;
         }
 };
 

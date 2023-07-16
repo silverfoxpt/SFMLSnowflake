@@ -30,7 +30,7 @@ void Initialize() {
     Test();
 
     GameManager::InitializeWindowWithResolution(&window);
-    brownianManager.Initialize();
+    brownianManager.Initialize(&window);
 }
 
 void Update(sf::Event event) {
@@ -46,7 +46,7 @@ void LateUpdate(sf::Event event) {
 }
 
 void Reset() {
-    
+
 }
 
 void MainGameLoop() {

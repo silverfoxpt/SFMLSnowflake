@@ -26,9 +26,22 @@ class Rand {
             return randInt(this->rng);
         }
 
+        float RandomFloat(float first, float last) {
+            std::uniform_real_distribution<float> randFloat(first, last);
+            return randFloat(this->rng);
+        }
+
         float RandomFloat01() {
             std::uniform_int_distribution<std::mt19937::result_type> randInt(0, 10000);
             return randInt(this->rng) / 10000.0;
+        }
+
+        sf::Color RandomColor() {
+            float r = RandomInt(0, 255);
+            float g = RandomInt(0, 255);
+            float b = RandomInt(0, 255);
+
+            return sf::Color(r, g, b);
         }
 
         std::string get_uuid() {
