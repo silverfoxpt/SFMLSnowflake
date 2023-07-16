@@ -5,6 +5,7 @@
 #include "Reuseable/math.h"
 
 #include "Brownian/brownian.h"
+#include "Lattice/lattice.h"
 
 //really early stuff initialization
 Rand Randomize::rand;
@@ -21,19 +22,20 @@ sf::Vector2u GameManager::originalResolution    = sf::Vector2u(1920, 1080);
 
 //game-related var
 Brownian brownianManager;
+HexagonLattice lattice;
+
+//test vars
 
 void Test() {
     
 }
 
 void UpdateTest() {
-    /*sf::Vector2f point(420, -300);
-    DrawUtils::drawCircle(&window, GameManager::convertWorldToScreen(point), 5, sf::Color::Red);
+    
+}
 
-    float curAngle = Math::angleBetweenVectors(Math::getUpVec(), point - sf::Vector2f(400, -400));
-    float mirrorAngle = Math::mirrorAngle(curAngle, 0);
+void VisualizeTest() {
 
-    //sf::Vector2f point2 = */
 }
 
 void Initialize() {
@@ -41,24 +43,31 @@ void Initialize() {
 
     GameManager::InitializeWindowWithResolution(&window);
     brownianManager.Initialize(&window);
+    lattice.Initialize(&window);
 }
 
 void Update(sf::Event event) {
     UpdateTest();
 
     //brownianManager.Update(event);
+    lattice.Update(event);
 }
 
 void Visualize(sf::Event event) {
+    VisualizeTest();
+
     brownianManager.Visualize(event);
+    lattice.Visualize(event);
 }
 
 void LateUpdate(sf::Event event) {
     brownianManager.LateUpdate();
+    lattice.LateUpdate();
 }
 
 void Reset() {
-
+    brownianManager.Reset();
+    lattice.Reset();
 }
 
 void MainGameLoop() {

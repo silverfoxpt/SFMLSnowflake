@@ -69,5 +69,47 @@
 		  "screen.draw(line , 2, sf::Lines);"
 		],
 		"description": "SFML Line"
+	},
+	"Monobehaviour header": {
+		"prefix": "monohead",
+		"body": [
+			"class Classname: Monobehaviour<sf::RenderWindow*> {",
+			"    public:",
+			"        sf::RenderWindow* window;",
+			"",
+			"        void Initialize(sf::RenderWindow* window) override;",
+			"        void Update(sf::Event event) override;",
+			"        void Visualize(sf::Event event) override;",
+			"        void LateUpdate() override;",
+			"        void Reset() override;",
+			"",
+			"    private:",
+			"        ",
+			"};"
+		],
+		"description": "Monobehaviour header"
+	},
+	"Monobehaviour Cpp": {
+		"prefix": "monocpp",
+		"body": [
+		  "void Classname::Initialize(sf::RenderWindow* window) {",
+		  "}",
+		  "",
+		  "void Classname::Update(sf::Event event) {",
+		  "}",
+		  "",
+		  "void Classname::Visualize(sf::Event event) {",
+		  "",
+		  "}",
+		  "",
+		  "void Classname::LateUpdate() {",
+		  "",
+		  "}",
+		  "",
+		  "void Classname::Reset() {",
+		  "",
+		  "}"
+		],
+		"description": "Monobehaviour Cpp"
 	}
 }

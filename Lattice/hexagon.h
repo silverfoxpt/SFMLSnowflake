@@ -1,5 +1,5 @@
-#ifndef H_LATTICE
-#define H_LATTICE
+#ifndef H_HEXAGON
+#define H_HEXAGON
 
 #include <SFML/Graphics.hpp>
 
@@ -17,27 +17,25 @@
 #include "../Reuseable/drawshapes.h"
 #include "../Reuseable/gameManager.h"
 
-#include "hexagon.h"
-
-class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
+class Hexagon: Monobehaviour<sf::RenderWindow*, float, sf::Vector2f> {
     public:
         sf::RenderWindow* window;
 
-        //settings
-        int layers = 5;
+        //used vars
+        int layer;
 
-        //actual used vars
-        std::vector<Hexagon> hexagons;
+        sf::Vector2f screenPos;
+        float size;
+        sf::VertexArray vertexArr;
 
-        void Initialize(sf::RenderWindow* window) override;
+        void Initialize(sf::RenderWindow* window, float size, sf::Vector2f screenPos) override;
         void Update(sf::Event event) override;
         void Visualize(sf::Event event) override;
         void LateUpdate() override;
         void Reset() override;
 
     private:
-        Hexagon createHexagon(float size, sf::Vector2f position);
-
+        
 };
 
 #endif
