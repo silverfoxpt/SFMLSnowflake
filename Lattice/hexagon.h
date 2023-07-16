@@ -16,6 +16,7 @@
 #include "../Reuseable/math.h"
 #include "../Reuseable/drawshapes.h"
 #include "../Reuseable/gameManager.h"
+#include "../Reuseable/randomsfml.h"
 
 class Hexagon: Monobehaviour<sf::RenderWindow*, float, sf::Vector2f> {
     public:

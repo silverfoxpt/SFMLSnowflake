@@ -4,9 +4,9 @@ void HexagonLattice::Initialize(sf::RenderWindow* window) {
     this->window = window;
 
     //create hex
-    const float hexSize = 50.0f;
-    const int numRows = 5;
-    const int numCols = 7;
+    const float hexSize = 5.0f;
+    const int numRows = 100;
+    const int numCols = 100;
 
     for (int row = 0; row < numRows; ++row) {
         for (int col = 0; col < numCols; ++col) {
