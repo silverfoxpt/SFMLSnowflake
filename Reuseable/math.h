@@ -159,6 +159,35 @@ class Math {
 
             return value;
         }
+
+        static float mirrorAngle(float angle, float rootAngle) {
+            // Normalize the angles to the range [0, 360)
+            angle = std::fmod(angle, 360.0f);
+            rootAngle = std::fmod(rootAngle, 360.0f);
+
+            // Calculate the mirrored angle
+            float mirroredAngle = 2.0f * rootAngle - angle;
+
+            // Normalize the mirrored angle to the range [0, 360)
+            mirroredAngle = std::fmod(mirroredAngle, 360.0f);
+            if (mirroredAngle < 0.0f) {
+                mirroredAngle += 360.0f;
+            }
+
+            return mirroredAngle;
+        }
+
+        static float angleBetweenVectors(const sf::Vector2f& v1, const sf::Vector2f& v2) {
+            float dot = v1.x * v2.x + v1.y * v2.y;
+            float det = v1.x * v2.y - v1.y * v2.x;
+            float angle = std::atan2(det, dot) * 180.0f / M_PI;
+
+            if (angle < 0.0f) {
+                angle += 360.0f;
+            }
+
+            return 360.0f - angle;
+        }
 };
 
 #endif

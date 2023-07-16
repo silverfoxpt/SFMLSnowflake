@@ -23,7 +23,17 @@ sf::Vector2u GameManager::originalResolution    = sf::Vector2u(1920, 1080);
 Brownian brownianManager;
 
 void Test() {
+    
+}
 
+void UpdateTest() {
+    /*sf::Vector2f point(420, -300);
+    DrawUtils::drawCircle(&window, GameManager::convertWorldToScreen(point), 5, sf::Color::Red);
+
+    float curAngle = Math::angleBetweenVectors(Math::getUpVec(), point - sf::Vector2f(400, -400));
+    float mirrorAngle = Math::mirrorAngle(curAngle, 0);
+
+    //sf::Vector2f point2 = */
 }
 
 void Initialize() {
@@ -34,6 +44,8 @@ void Initialize() {
 }
 
 void Update(sf::Event event) {
+    UpdateTest();
+
     brownianManager.Update(event);
 }
 

@@ -17,7 +17,7 @@
 #include "../Reuseable/drawshapes.h"
 #include "../Reuseable/gameManager.h"
 
-enum BrownianTravalPhase {
+enum BrownianTravelPhase {
     Waiting = 0,
     Travelling = 1
 };
@@ -28,19 +28,23 @@ class Brownian : public Monobehaviour<sf::RenderWindow*> {
         float maxDistanceFromCenter         = 400;
         sf::Vector2f center                 = sf::Vector2f(400, 400);
 
-        int totalParticlePerQuadrant        = 400; // if -1 then unlimited
+        int totalParticlePerQuadrant        = 500; // if -1 then unlimited
         int totalNumQuadrant                = 6;
 
-        float particleSpeed                 = 1; //per frame update
-        float particleRadius                = 5; 
+        float particleSpeed                 = 2; //per frame update
+        float particleRadius                = 2; 
+        float detectionRadius               = 3; //let things stick a bit
 
         //used vars
         std::vector<sf::Vector2f> points;
         std::vector<sf::Vector2f> currentStickedPoints;
+
         sf::Vector2f currentMovingPoint;
         sf::Vector2f centerPoint;
 
-        BrownianTravalPhase phase = BrownianTravalPhase::Waiting;
+        sf::VertexArray vertices;
+
+        BrownianTravelPhase phase = BrownianTravelPhase::Waiting;
 
         sf::RenderWindow* window;
 
@@ -49,6 +53,8 @@ class Brownian : public Monobehaviour<sf::RenderWindow*> {
         void Visualize(sf::Event event)     override;
         void LateUpdate()                   override;
         void Reset()                        override;
+
+        void CalculateVertices(sf::VertexArray &array, sf::Vector2f point, sf::Color color);
 };  
 
 #endif
