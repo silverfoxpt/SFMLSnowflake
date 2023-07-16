@@ -63,7 +63,7 @@ void Brownian::Update(sf::Event event) {
         float end = this->centerPoint.x + std::tan(Math::toRad(angleOfMovement)) * std::abs(this->currentMovingPoint.y - GameManager::convertScreenToWorld(this->center).y);
 
         sf::Vector2f dirToCenter = this->centerPoint - this->currentMovingPoint;
-        float randomDirDown = Randomize::rand.RandomInt(-90, 90);
+        float randomDirDown = Randomize::rand.RandomInt(-60, 90);
 
         sf::Vector2f choosenDir = Math::spinPoint(dirToCenter, sf::Vector2f(0, 0), randomDirDown);
         sf::Vector2f choosenMovement = Math::scaleVec(Math::normalizeVec(choosenDir), this->particleSpeed);

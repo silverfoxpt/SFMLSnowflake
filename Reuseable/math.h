@@ -177,6 +177,7 @@ class Math {
             return mirroredAngle;
         }
 
+        //always clockwise
         static float angleBetweenVectors(const sf::Vector2f& v1, const sf::Vector2f& v2) {
             float dot = v1.x * v2.x + v1.y * v2.y;
             float det = v1.x * v2.y - v1.y * v2.x;

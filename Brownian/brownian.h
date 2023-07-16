@@ -33,7 +33,7 @@ class Brownian : public Monobehaviour<sf::RenderWindow*> {
 
         float particleSpeed                 = 2; //per frame update
         float particleRadius                = 2; 
-        float detectionRadius               = 3; //let things stick a bit
+        float detectionRadius               = 2; //let things stick a bit
 
         //used vars
         std::vector<sf::Vector2f> points;

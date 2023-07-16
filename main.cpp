@@ -46,7 +46,7 @@ void Initialize() {
 void Update(sf::Event event) {
     UpdateTest();
 
-    brownianManager.Update(event);
+    //brownianManager.Update(event);
 }
 
 void Visualize(sf::Event event) {
