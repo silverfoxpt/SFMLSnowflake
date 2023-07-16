@@ -24,7 +24,10 @@ class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
         sf::RenderWindow* window;
 
         //settings
-        int layers = 5;
+        sf::Vector2f startingPos = sf::Vector2f(70, 70);
+        float hexSize = 50.0f;
+        int numRows = 5;
+        int numCols = 4;
 
         //actual used vars
         std::vector<Hexagon> hexagons;
