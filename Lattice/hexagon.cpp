@@ -11,13 +11,13 @@ void Hexagon::Initialize(sf::RenderWindow* window, float size, sf::Vector2f scre
     const float angle = 2 * 3.14159 / 6; // Angle between each corner of the hexagon
     const float radius = size / 2.0f;    // Radius of the circumscribed circle
 
-    sf::Color color = Randomize::rand.RandomColor();
-    this->vertexArr.append(sf::Vertex(screenPos, color)); // Center of the hexagon
+    this->originalColor = sf::Color::White;
+    this->vertexArr.append(sf::Vertex(screenPos, originalColor)); // Center of the hexagon
 
     for (int i = 0; i <= 6; ++i) {
         sf::Vector2f point(screenPos.x + radius * cos(i * angle),
                             screenPos.y + radius * sin(i * angle));
-        this->vertexArr.append(sf::Vertex(point, color));
+        this->vertexArr.append(sf::Vertex(point, originalColor));
     }
 }
 
@@ -35,4 +35,14 @@ void Hexagon::LateUpdate() {
 void Hexagon::Reset() {
     this->vertexArr.clear();
     this->neighborHex.clear();
+}
+
+void Hexagon::ChangeColor(sf::Color color) {
+    for (int i = 0; i < (int) this->vertexArr.getVertexCount(); i++) {
+        this->vertexArr[i].color = color;
+    }
+}
+
+void Hexagon::ChangeToOriginalColor() {
+    this->ChangeColor(this->originalColor);
 }

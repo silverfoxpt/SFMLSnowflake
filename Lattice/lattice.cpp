@@ -52,15 +52,35 @@ void HexagonLattice::Initialize(sf::RenderWindow* window) {
 }
 
 void HexagonLattice::Update(sf::Event event) {
+
+}
+
+void HexagonLattice::Visualize(sf::Event event) {
+    sf::Vector2f mousePos = Math::convertToFloatVec(sf::Mouse::getPosition(*this->window));
     for (const auto& col : hexagons) {
         for (const auto& hexagon: col) {
             this->window->draw(hexagon.vertexArr);
         }
     }
-}
 
-void HexagonLattice::Visualize(sf::Event event) {
     //test
+    for (int col = 0; col < numCols; ++col) {
+        for (int row = 0; row < numRows; ++row) {
+            auto hex = this->getHexAtIndex(col, row);
+            hex->ChangeToOriginalColor();
+        }
+    }
+
+    auto hex = this->getHexAtPos(mousePos.x, mousePos.y);
+    if (hex != nullptr) {
+        hex->ChangeColor(sf::Color::Red);
+
+        for (const auto nei: hex->neighborHex) {
+            if (nei != nullptr) {
+                nei->ChangeColor(sf::Color::Red);
+            }
+        }
+    }
 }
 
 void HexagonLattice::LateUpdate() {
@@ -79,7 +99,7 @@ Hexagon HexagonLattice::createHexagon(float size, sf::Vector2f screenPos) {
 }
 
 Hexagon* HexagonLattice::getHexAtIndex(int col, int row) {
-    if (this->hexagons.empty() || col < 0 || col >= this->hexagons.size() || row < 0 || row >= this->hexagons[0].size()) {
+    if (this->hexagons.empty() || col < 0 || col >= (int) this->hexagons.size() || row < 0 || row >= (int) this->hexagons[0].size()) {
         //std::cout << "Hex not found!";
         return nullptr;
     }

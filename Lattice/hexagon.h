@@ -31,11 +31,17 @@ class Hexagon: Monobehaviour<sf::RenderWindow*, float, sf::Vector2f> {
 
         std::vector<Hexagon*> neighborHex;
 
+        //test vars
+        sf::Color originalColor = sf::Color::White;
+
         void Initialize(sf::RenderWindow* window, float size, sf::Vector2f screenPos) override;
         void Update(sf::Event event) override;
         void Visualize(sf::Event event) override;
         void LateUpdate() override;
         void Reset() override;
+
+        void ChangeColor(sf::Color color);
+        void ChangeToOriginalColor();
 
     private:
         
