@@ -4,10 +4,14 @@ void HexagonLattice::Initialize(sf::RenderWindow* window) {
     this->window = window;
 
     //create hex
+    float radius = this->hexSize / 2.0f;
+    float spaceBetweenCrack = (radius / 2.0f) * (std::tan(Math::toRad(15))) * 2;
+    float height = sqrt(radius * radius - (radius/2) * (radius/2));
+
     for (int col = 0; col < numCols; ++col) {
         for (int row = 0; row < numRows; ++row) {
-            float x = hexSize * col * 0.75f;
-            float y = hexSize * (row + 0.5f * (col % 2));
+            float x = col * (radius * 1.5f);
+            float y = this->hexSize * (row) - (row * spaceBetweenCrack) + ((col % 2) * height);
             this->hexagons.push_back(createHexagon(hexSize, this->startingPos + sf::Vector2f(x, y)));
         }
     }
