@@ -9,22 +9,58 @@ void HexagonLattice::Initialize(sf::RenderWindow* window) {
     float height = sqrt(radius * radius - (radius/2) * (radius/2));
 
     for (int col = 0; col < numCols; ++col) {
+        std::vector<Hexagon> hex;
+        this->hexagons.push_back(hex);
+
         for (int row = 0; row < numRows; ++row) {
             float x = col * (radius * 1.5f);
             float y = this->hexSize * (row) - (row * spaceBetweenCrack) + ((col % 2) * height);
-            this->hexagons.push_back(createHexagon(hexSize, this->startingPos + sf::Vector2f(x, y)));
+            this->hexagons[col].push_back(createHexagon(hexSize, this->startingPos + sf::Vector2f(x, y)));
+        }
+    }
+
+    //add hex neighbor
+    //top
+    for (int col = 0; col < numCols; col++) {
+        for (int row = 0; row < numRows; row++) {
+            //top top
+            Hexagon* toptop = this->getHexAtIndex(col, row-1); 
+            this->hexagons[col][row].neighborHex.push_back(toptop);
+
+            //top right
+            Hexagon* topright = this->getHexAtIndex(col+1, (col % 2 == 0) ? row-1 : row);
+            this->hexagons[col][row].neighborHex.push_back(topright);
+
+            //bottom right
+            Hexagon* bottomright = this->getHexAtIndex(col+1, (col % 2 == 0) ? row : row+1);
+            this->hexagons[col][row].neighborHex.push_back(bottomright);
+
+            //bottom bottom
+            Hexagon* bottombottom = this->getHexAtIndex(col, row+1); 
+            this->hexagons[col][row].neighborHex.push_back(bottombottom);
+
+            //bottom left
+            Hexagon* bottomleft = this->getHexAtIndex(col-1, (col % 2 == 0) ? row : row+1);
+            this->hexagons[col][row].neighborHex.push_back(bottomleft);
+
+            //top left
+            Hexagon* topleft = this->getHexAtIndex(col-1, (col % 2 == 0) ? row-1 : row);
+            this->hexagons[col][row].neighborHex.push_back(topleft);
+        }
+    }
+    
+}
+
+void HexagonLattice::Update(sf::Event event) {
+    for (const auto& col : hexagons) {
+        for (const auto& hexagon: col) {
+            this->window->draw(hexagon.vertexArr);
         }
     }
 }
 
-void HexagonLattice::Update(sf::Event event) {
-    for (const auto& hexagon : hexagons) {
-        this->window->draw(hexagon.vertexArr);
-    }
-}
-
 void HexagonLattice::Visualize(sf::Event event) {
-
+    //test
 }
 
 void HexagonLattice::LateUpdate() {
@@ -40,4 +76,33 @@ Hexagon HexagonLattice::createHexagon(float size, sf::Vector2f screenPos) {
     hex.Initialize(this->window, size, screenPos);
 
     return hex;
+}
+
+Hexagon* HexagonLattice::getHexAtIndex(int col, int row) {
+    if (this->hexagons.empty() || col < 0 || col >= this->hexagons.size() || row < 0 || row >= this->hexagons[0].size()) {
+        //std::cout << "Hex not found!";
+        return nullptr;
+    }
+
+    return &this->hexagons[col][row];
+}
+
+//inaccurate
+Hexagon* HexagonLattice::getHexAtPos(float x, float y) {
+    sf::Vector2f point(x, y);
+    int colIdx = 0;
+    for (const auto& col : hexagons) {
+        int rowIdx = 0;
+        for (const auto& hexagon: col) {
+            sf::Vector2f center = hexagon.screenPos;
+            float radius = hexagon.size / 2.0f;
+
+            if (Math::Distance(point, center) <= radius) {
+                return this->getHexAtIndex(colIdx, rowIdx);
+            }
+            rowIdx++;
+        }
+        colIdx++;
+    }
+    return nullptr;
 }

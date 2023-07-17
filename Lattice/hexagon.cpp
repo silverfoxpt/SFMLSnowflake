@@ -33,5 +33,6 @@ void Hexagon::LateUpdate() {
 }
 
 void Hexagon::Reset() {
-
+    this->vertexArr.clear();
+    this->neighborHex.clear();
 }

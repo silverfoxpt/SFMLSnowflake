@@ -29,6 +29,8 @@ class Hexagon: Monobehaviour<sf::RenderWindow*, float, sf::Vector2f> {
         float size;
         sf::VertexArray vertexArr;
 
+        std::vector<Hexagon*> neighborHex;
+
         void Initialize(sf::RenderWindow* window, float size, sf::Vector2f screenPos) override;
         void Update(sf::Event event) override;
         void Visualize(sf::Event event) override;

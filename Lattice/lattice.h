@@ -25,12 +25,12 @@ class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
 
         //settings
         sf::Vector2f startingPos = sf::Vector2f(70, 70);
-        float hexSize = 5.0f;
-        int numRows = 100;
-        int numCols = 100;
+        float hexSize = 25.0f;
+        int numRows = 10;
+        int numCols = 10;
 
         //actual used vars
-        std::vector<Hexagon> hexagons;
+        std::vector<std::vector<Hexagon>> hexagons; //col first, row later
 
         void Initialize(sf::RenderWindow* window) override;
         void Update(sf::Event event) override;
@@ -40,6 +40,8 @@ class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
 
     private:
         Hexagon createHexagon(float size, sf::Vector2f position);
+        Hexagon* getHexAtPos(float x, float y);
+        Hexagon* getHexAtIndex(int col, int row);
 
 };
 
