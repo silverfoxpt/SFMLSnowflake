@@ -17,9 +17,38 @@
 #include "../Reuseable/drawshapes.h"
 #include "../Reuseable/gameManager.h"
 
-class Crystal : Monobehaviour<> {
-    public:
+#include "lattice.h"
 
+class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
+    public:
+        sf::RenderWindow* window;
+        HexagonLattice* lattice;
+
+        int cols;
+        int rows;
+
+        //values
+        std::vector<std::vector<int>> a;
+        std::vector<std::vector<float>> b;
+        std::vector<std::vector<float>> c;
+        std::vector<std::vector<float>> d;
+
+        std::vector<Hexagon*> inside;
+        std::vector<Hexagon*> boundary;
+        std::vector<Hexagon*> outside;
+        std::vector<Hexagon*> outsideBoundary;
+
+        //settings
+        float p1 = 0.35;
+
+        void Initialize(sf::RenderWindow* window, HexagonLattice* lattice) override;
+        void Update(sf::Event event) override;
+        void Visualize(sf::Event event) override;
+        void LateUpdate() override;
+        void Reset() override;
+
+    private:
+        
 };
 
 #endif

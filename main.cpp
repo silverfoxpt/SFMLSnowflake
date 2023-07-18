@@ -24,6 +24,7 @@ sf::Vector2u GameManager::originalResolution    = sf::Vector2u(1920, 1080);
 //game-related var
 Brownian brownianManager;
 HexagonLattice lattice;
+Crystal crystal;
 
 //test vars
 
@@ -45,6 +46,7 @@ void Initialize() {
     GameManager::InitializeWindowWithResolution(&window);
     brownianManager.Initialize(&window);
     lattice.Initialize(&window);
+    crystal.Initialize(&window, &lattice);
 }
 
 void Update(sf::Event event) {
@@ -52,6 +54,7 @@ void Update(sf::Event event) {
 
     //brownianManager.Update(event);
     lattice.Update(event);
+    crystal.Update(event);
 }
 
 void Visualize(sf::Event event) {
@@ -59,16 +62,19 @@ void Visualize(sf::Event event) {
 
     brownianManager.Visualize(event);
     lattice.Visualize(event);
+    crystal.Visualize(event);
 }
 
 void LateUpdate(sf::Event event) {
     brownianManager.LateUpdate();
     lattice.LateUpdate();
+    crystal.LateUpdate();
 }
 
 void Reset() {
     brownianManager.Reset();
     lattice.Reset();
+    crystal.Reset();
 }
 
 void MainGameLoop() {

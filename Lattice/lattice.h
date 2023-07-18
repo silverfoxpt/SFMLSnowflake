@@ -39,11 +39,11 @@ class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
         void Reset() override;
 
         Hexagon* getMidHex();
+        Hexagon* getHexAtIndex(int col, int row);
 
     private:
         Hexagon createHexagon(float size, sf::Vector2f position);
         Hexagon* getHexAtPos(float x, float y);
-        Hexagon* getHexAtIndex(int col, int row);
 
 };
 

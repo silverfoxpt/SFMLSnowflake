@@ -64,7 +64,7 @@ void HexagonLattice::Visualize(sf::Event event) {
     }
 
     //test
-    for (int col = 0; col < numCols; ++col) {
+    /*for (int col = 0; col < numCols; ++col) {
         for (int row = 0; row < numRows; ++row) {
             auto hex = this->getHexAtIndex(col, row);
             hex->ChangeToOriginalColor();
@@ -80,7 +80,7 @@ void HexagonLattice::Visualize(sf::Event event) {
                 nei->ChangeColor(sf::Color::Red);
             }
         }
-    }
+    }*/
 }
 
 void HexagonLattice::LateUpdate() {
