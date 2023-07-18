@@ -18,7 +18,7 @@
 #include "../Reuseable/gameManager.h"
 #include "../Reuseable/randomsfml.h"
 
-class Hexagon: Monobehaviour<sf::RenderWindow*, float, sf::Vector2f> {
+class Hexagon: Monobehaviour<sf::RenderWindow*, float, sf::Vector2f, int, int> {
     public:
         sf::RenderWindow* window;
 
@@ -33,8 +33,10 @@ class Hexagon: Monobehaviour<sf::RenderWindow*, float, sf::Vector2f> {
 
         //test vars
         sf::Color originalColor = sf::Color::White;
+        int col;
+        int row;
 
-        void Initialize(sf::RenderWindow* window, float size, sf::Vector2f screenPos) override;
+        void Initialize(sf::RenderWindow* window, float size, sf::Vector2f screenPos, int col, int row) override;
         void Update(sf::Event event) override;
         void Visualize(sf::Event event) override;
         void LateUpdate() override;

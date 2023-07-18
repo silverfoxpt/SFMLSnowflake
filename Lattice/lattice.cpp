@@ -15,7 +15,7 @@ void HexagonLattice::Initialize(sf::RenderWindow* window) {
         for (int row = 0; row < numRows; ++row) {
             float x = col * (radius * 1.5f);
             float y = this->hexSize * (row) - (row * spaceBetweenCrack) + ((col % 2) * height);
-            this->hexagons[col].push_back(createHexagon(hexSize, this->startingPos + sf::Vector2f(x, y)));
+            this->hexagons[col].push_back(createHexagon(hexSize, this->startingPos + sf::Vector2f(x, y), col, row));
         }
     }
 
@@ -91,9 +91,9 @@ void HexagonLattice::Reset() {
     this->hexagons.clear();
 }
 
-Hexagon HexagonLattice::createHexagon(float size, sf::Vector2f screenPos) {
+Hexagon HexagonLattice::createHexagon(float size, sf::Vector2f screenPos, int col, int row) {
     Hexagon hex;
-    hex.Initialize(this->window, size, screenPos);
+    hex.Initialize(this->window, size, screenPos, col, row);
 
     return hex;
 }

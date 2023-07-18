@@ -42,7 +42,7 @@ class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
         Hexagon* getHexAtIndex(int col, int row);
 
     private:
-        Hexagon createHexagon(float size, sf::Vector2f position);
+        Hexagon createHexagon(float size, sf::Vector2f position, int col, int row);
         Hexagon* getHexAtPos(float x, float y);
 
 };

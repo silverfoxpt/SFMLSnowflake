@@ -41,6 +41,10 @@ class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
         //settings
         float p1 = 0.35;
 
+        float k2 = 0.05;
+
+        float b3 = 1.4;
+
         void Initialize(sf::RenderWindow* window, HexagonLattice* lattice) override;
         void Update(sf::Event event) override;
         void Visualize(sf::Event event) override;
@@ -48,7 +52,9 @@ class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
         void Reset() override;
 
     private:
-        
+        void Diffusion();
+        void Freezing();
+        void Attachment();
 };
 
 #endif

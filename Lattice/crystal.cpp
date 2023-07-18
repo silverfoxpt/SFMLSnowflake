@@ -22,7 +22,7 @@ void Crystal::Initialize(sf::RenderWindow* window, HexagonLattice* lattice) {
     }
 
     //initialize lattice center
-    sf::Vector2i center(std::max(0, cols/2-1), std::max(0, rows/2-1));
+    sf::Vector2i center(cols/2, rows/2);
     a[center.x][center.y] = 1;
     c[center.x][center.y] = 1.0;
     b[center.x][center.y] = d[center.x][center.y] = 0;
@@ -49,11 +49,12 @@ void Crystal::Initialize(sf::RenderWindow* window, HexagonLattice* lattice) {
             }
         }
     }
-
-    //test
 }
 
 void Crystal::Update(sf::Event event) {
+    this->Diffusion();
+    this->Freezing();
+    this->Attachment();
 }
 
 void Crystal::Visualize(sf::Event event) {
@@ -74,4 +75,43 @@ void Crystal::Reset() {
     this->boundary.clear();
     this->outside.clear();
     this->outsideBoundary.clear();
+}
+
+void Crystal::Diffusion() {
+    for (auto hex: this->outsideBoundary) {
+        float total = this->d[hex->col][hex->row];
+
+        for (auto nei: hex->neighborHex) {
+            total += this->d[nei->col][nei->row];
+        }
+
+        this->d[hex->col][hex->row] = total / 7.0f;
+    }
+}
+
+void Crystal::Freezing() {
+    for (auto hex: this->boundary) {
+        this->b[hex->col][hex->row] += (1 - this->k2)   * this->d[hex->col][hex->row];
+        this->c[hex->col][hex->row] += this->k2         * this->d[hex->col][hex->row];
+        this->d[hex->col][hex->row] = 0.0;
+    }
+}
+
+void Crystal::Attachment() {
+    for (auto hex: this->boundary) {
+        //calculated number of attached crystal
+        int nt = 0;
+        for (auto nei: hex->neighborHex) {
+            nt += this->a[nei->col][nei->row];
+        }
+
+        if (nt == 0) {std::cout << "Error: Boundary miscalculated" << '\n'; continue;}
+
+        //if 1 to 2
+        if (nt >= 1 && nt <= 2) {
+            if (this->b[hex->col][hex->row] >= this->b3) {
+                //add crystal
+            }
+        }
+    }
 }

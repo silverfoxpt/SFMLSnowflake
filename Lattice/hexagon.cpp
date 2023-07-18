@@ -1,6 +1,6 @@
 #include "hexagon.h"
 
-void Hexagon::Initialize(sf::RenderWindow* window, float size, sf::Vector2f screenPos) {
+void Hexagon::Initialize(sf::RenderWindow* window, float size, sf::Vector2f screenPos, int col, int row) {
     this->size = size;
     this->screenPos = screenPos;
     this->window = window;
