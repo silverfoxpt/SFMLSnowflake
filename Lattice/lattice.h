@@ -38,6 +38,8 @@ class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
         void LateUpdate() override;
         void Reset() override;
 
+        Hexagon* getMidHex();
+
     private:
         Hexagon createHexagon(float size, sf::Vector2f position);
         Hexagon* getHexAtPos(float x, float y);

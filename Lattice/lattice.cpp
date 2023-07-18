@@ -64,7 +64,7 @@ void HexagonLattice::Visualize(sf::Event event) {
     }
 
     //test
-    /*for (int col = 0; col < numCols; ++col) {
+    for (int col = 0; col < numCols; ++col) {
         for (int row = 0; row < numRows; ++row) {
             auto hex = this->getHexAtIndex(col, row);
             hex->ChangeToOriginalColor();
@@ -80,7 +80,7 @@ void HexagonLattice::Visualize(sf::Event event) {
                 nei->ChangeColor(sf::Color::Red);
             }
         }
-    }*/
+    }
 }
 
 void HexagonLattice::LateUpdate() {
@@ -98,14 +98,31 @@ Hexagon HexagonLattice::createHexagon(float size, sf::Vector2f screenPos) {
     return hex;
 }
 
-Hexagon* HexagonLattice::getHexAtIndex(int col, int row) {
+/*Hexagon* HexagonLattice::getHexAtIndex(int col, int row) {
     if (this->hexagons.empty() || col < 0 || col >= (int) this->hexagons.size() || row < 0 || row >= (int) this->hexagons[0].size()) {
         //std::cout << "Hex not found!";
         return nullptr;
     }
 
     return &this->hexagons[col][row];
+}*/
+
+//wrapped around method
+Hexagon* HexagonLattice::getHexAtIndex(int col, int row) {
+    if (this->hexagons.empty()) {
+        // Handle empty hexagon grid
+        return nullptr;
+    }
+
+    // Adjust column index for wrapping around
+    col = (col + this->hexagons.size()) % this->hexagons.size();
+
+    // Adjust row index for wrapping around
+    row = (row + this->hexagons[col].size()) % this->hexagons[col].size();
+
+    return &this->hexagons[col][row];
 }
+
 
 //inaccurate
 Hexagon* HexagonLattice::getHexAtPos(float x, float y) {
@@ -125,4 +142,8 @@ Hexagon* HexagonLattice::getHexAtPos(float x, float y) {
         colIdx++;
     }
     return nullptr;
+}
+
+Hexagon* HexagonLattice::getMidHex() {
+    return this->getHexAtIndex(this->numCols/2, this->numRows/2);
 }

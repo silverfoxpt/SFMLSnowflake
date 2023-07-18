@@ -6,6 +6,7 @@
 
 #include "Brownian/brownian.h"
 #include "Lattice/lattice.h"
+#include "Lattice/crystal.h"
 
 //really early stuff initialization
 Rand Randomize::rand;
