@@ -11,6 +11,8 @@
 #include <random>
 #include <memory>
 #include <chrono>
+#include <set>
+#include <unordered_set>
 
 #include "../Reuseable/templateclass.h"
 #include "../Reuseable/math.h"
@@ -32,7 +34,7 @@ class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
         std::vector<std::vector<float>> b;
         std::vector<std::vector<float>> c;
         std::vector<std::vector<float>> d;
-        std::vector<std::vector<float>> d2;
+        //std::vector<std::vector<float>> d2;
 
         std::vector<Hexagon*> inside;
         std::vector<Hexagon*> boundary;
@@ -68,6 +70,7 @@ class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
         void Perturb();
 
         void AddToCrystal(int col, int row);
+        void ModCrystalValue(int col, int row);
 };
 
 #endif

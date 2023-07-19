@@ -8,6 +8,8 @@
 #include "Lattice/lattice.h"
 #include "Lattice/crystal.h"
 
+#include "IMGUI/imgui-SFML.h"
+
 //really early stuff initialization
 Rand Randomize::rand;
 
@@ -37,7 +39,7 @@ void UpdateTest() {
 }
 
 void VisualizeTest() {
-
+    
 }
 
 void Initialize() {

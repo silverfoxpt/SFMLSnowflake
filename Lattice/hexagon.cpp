@@ -7,6 +7,9 @@ void Hexagon::Initialize(sf::RenderWindow* window, float size, sf::Vector2f scre
 
     this->vertexArr = sf::VertexArray(sf::TrianglesFan);
 
+    this->col = col;
+    this->row = row;
+
     //create the shape
     const float angle = 2 * 3.14159 / 6; // Angle between each corner of the hexagon
     const float radius = size / 2.0f;    // Radius of the circumscribed circle
