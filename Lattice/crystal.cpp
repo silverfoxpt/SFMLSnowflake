@@ -12,12 +12,13 @@ void Crystal::Initialize(sf::RenderWindow* window, HexagonLattice* lattice) {
     this->b.resize(this->cols, std::vector<float>(this->rows));
     this->c.resize(this->cols, std::vector<float>(this->rows));
     this->d.resize(this->cols, std::vector<float>(this->rows));
+    this->d2.resize(this->cols, std::vector<float>(this->rows));
 
     for (int i = 0; i < this->cols; i++) {
         for (int j = 0; j < this->rows; j++) {
             a[i][j] = 0;
             b[i][j] = c[i][j] = 0.0;
-            d[i][j] = p1;
+            d[i][j] = this->d2[i][j] = p1;
         }
     }
 
@@ -49,16 +50,21 @@ void Crystal::Initialize(sf::RenderWindow* window, HexagonLattice* lattice) {
             }
         }
     }
+    std::cout << "Crystal initialized!" << '\n';
 }
 
 void Crystal::Update(sf::Event event) {
     this->Diffusion();
-    this->Freezing();
+    /*this->Freezing();
     this->Attachment();
+    this->Melting();
+    this->Perturb();*/
 }
 
 void Crystal::Visualize(sf::Event event) {
-
+    for (auto hex: this->inside) {
+        hex->ChangeColor(sf::Color::Cyan);
+    }
 }
 
 void Crystal::LateUpdate() {
@@ -70,14 +76,17 @@ void Crystal::Reset() {
     this->b.clear();
     this->c.clear();
     this->d.clear();
+    this->d2.clear();
 
     this->inside.clear();
     this->boundary.clear();
     this->outside.clear();
     this->outsideBoundary.clear();
+    this->all.clear();
 }
 
 void Crystal::Diffusion() {
+    this->d2 = this->d;
     for (auto hex: this->outsideBoundary) {
         float total = this->d[hex->col][hex->row];
 
@@ -85,8 +94,26 @@ void Crystal::Diffusion() {
             total += this->d[nei->col][nei->row];
         }
 
-        this->d[hex->col][hex->row] = total / 7.0f;
+        std::cout << total << " " << hex->col << " " << hex->row << '\n';
+
+        this->d2[hex->col][hex->row] = total / 7.0;
     }
+
+    for (auto hex: this->boundary) {
+        float total = this->d[hex->col][hex->row];
+
+        for (auto nei: hex->neighborHex) {
+            //if nei is inside
+            if (std::find(this->inside.begin(), this->inside.end(), nei) != this->inside.end()) {
+                total += this->d[hex->col][hex->row];
+            }
+            else {
+                total += this->d[nei->col][nei->row];
+            }
+        }
+        this->d2[hex->col][hex->row] = total / 7.0;
+    }
+    this->d = this->d2;
 }
 
 void Crystal::Freezing() {
@@ -98,11 +125,15 @@ void Crystal::Freezing() {
 }
 
 void Crystal::Attachment() {
+    std::vector<std::pair<int, int>> toAdd;
+
     for (auto hex: this->boundary) {
         //calculated number of attached crystal
         int nt = 0;
+        float boundaryMass = 0;
         for (auto nei: hex->neighborHex) {
-            nt += this->a[nei->col][nei->row];
+            nt              += this->a[nei->col][nei->row];
+            boundaryMass    += this->d[nei->col][nei->row];
         }
 
         if (nt == 0) {std::cout << "Error: Boundary miscalculated" << '\n'; continue;}
@@ -111,7 +142,78 @@ void Crystal::Attachment() {
         if (nt >= 1 && nt <= 2) {
             if (this->b[hex->col][hex->row] >= this->b3) {
                 //add crystal
+                toAdd.push_back(std::make_pair(hex->col, hex->row));
+            }
+        }
+        
+        //if 3
+        if (nt == 3) {
+            if (this->b[hex->col][hex->row] >= 1 
+                || (boundaryMass < this->o3 && this->b[hex->col][hex->row] >= this->a3)) 
+            {
+                //add crystal
+                toAdd.push_back(std::make_pair(hex->col, hex->row));
+            }
+        }
+
+        //if 4 to 6
+        if (nt >= 4) {
+            //add crystal
+            toAdd.push_back(std::make_pair(hex->col, hex->row));
+        }
+    }
+
+    for (auto hex: toAdd) {
+        this->AddToCrystal(hex.first, hex.second);
+    }
+}
+
+void Crystal::Melting() {
+    for (auto hex: this->boundary) {
+        float prevb = this->b[hex->col][hex->row], prevc = this->c[hex->col][hex->row];
+        this->b[hex->col][hex->row]     = (1 - this->u4) * this->b[hex->col][hex->row];
+        this->c[hex->col][hex->row]     = (1 - this->y4) * this->c[hex->col][hex->row];
+        this->d[hex->col][hex->row]     += (this->u4) * prevb + (this->y4) * prevc;
+    }
+}
+
+void Crystal::Perturb() {
+    for (auto hex: this->all) {
+        float sign = Randomize::rand.RandomFloat01() > 0.5 ? 1 : -1;
+        this->d[hex->col][hex->row] += this->d[hex->col][hex->row] * (1 + sign * this->o5);
+    }
+}
+
+void Crystal::AddToCrystal(int col, int row) {
+    auto hex = this->lattice->getHexAtIndex(col, row);
+
+    //add to inside
+    this->inside.push_back(hex);
+
+    //remove from outside
+    auto found = std::find(this->outside.begin(), this->outside.end(), hex);
+    if (found != this->outside.end()) {
+        this->outside.erase(found);
+    }
+    
+    for (auto nei: hex->neighborHex) {
+        int neiCol = nei->col, neiRow = nei->row;
+
+        if (this->a[neiCol][neiRow] == 0) { //if not already inside
+            //add to boundary
+            this->boundary.push_back(nei);
+
+            //remove from outside boundary
+            found = std::find(this->outsideBoundary.begin(), this->outsideBoundary.end(), nei);
+            if (found != this->outsideBoundary.end()) {
+                this->outsideBoundary.erase(found);
             }
         }
     }
+    
+
+    //mod values
+    this->a[hex->col][hex->row] = 1;
+    this->c[hex->col][hex->row] += this->b[hex->col][hex->row];
+    this->b[hex->col][hex->row] = 0;
 }
