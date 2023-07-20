@@ -13,6 +13,7 @@
 #include <chrono>
 #include <vector>
 #include <set>
+#include <unordered_set>
 
 #include "../Reuseable/templateclass.h"
 #include "../Reuseable/math.h"
@@ -20,6 +21,12 @@
 #include "../Reuseable/gameManager.h"
 
 #include "lattice.h"
+
+struct pair_hash {
+    inline std::size_t operator()(const std::pair<int,int> & v) const {
+        return v.first*31+v.second;
+    }
+};
 
 class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
     public:
