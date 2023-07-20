@@ -11,8 +11,8 @@
 #include <random>
 #include <memory>
 #include <chrono>
+#include <vector>
 #include <set>
-#include <unordered_set>
 
 #include "../Reuseable/templateclass.h"
 #include "../Reuseable/math.h"
@@ -36,18 +36,20 @@ class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
         std::vector<std::vector<float>> d;
         //std::vector<std::vector<float>> d2;
 
-        std::vector<Hexagon*> inside;
-        std::vector<Hexagon*> boundary;
-        std::vector<Hexagon*> outside;
-        std::vector<Hexagon*> outsideBoundary;
-        std::vector<Hexagon*> all;
+        std::set<std::pair<int, int>> inside;
+        std::set<std::pair<int, int>> boundary;
+        std::set<std::pair<int, int>> outside;
+        std::set<std::pair<int, int>> outsideBoundary;
+        std::set<std::pair<int, int>> all;
+
+        std::vector<std::vector<std::vector<std::pair<int, int>>>> neighborIdx;
 
         //settings
-        float p1 = 0.35;
+        float p1 = 0.40; //original 0.35
 
         float k2 = 0.05;
 
-        float b3 = 1.4;
+        float b3 = 1.1; //original 1.4
         float o3 = 0.015;
         float a3 = 0.001;
 
@@ -71,6 +73,8 @@ class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
 
         void AddToCrystal(int col, int row);
         void ModCrystalValue(int col, int row);
+
+        sf::Color GetColorFromLightness(float lightness);
 };
 
 #endif

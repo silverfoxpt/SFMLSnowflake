@@ -25,7 +25,7 @@ class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
 
         //settings
         sf::Vector2f startingPos = sf::Vector2f(70, 70);
-        float hexSize = 4.0f;
+        float hexSize = 3.0f;
         int numRows = 199;
         int numCols = 199;
 
