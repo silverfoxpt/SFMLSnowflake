@@ -8,7 +8,10 @@
 #include "Lattice/lattice.h"
 #include "Lattice/crystal.h"
 
+#include "IMGUI/imgui.h"
 #include "IMGUI/imgui-SFML.h"
+
+#include "imguimain.h"
 
 //really early stuff initialization
 Rand Randomize::rand;
@@ -22,6 +25,8 @@ float GameManager::deltaTime                    = 1/300.0;
 
 sf::Vector2u GameManager::mainWindowSize        = sf::Vector2u(800, 800);
 sf::Vector2u GameManager::originalResolution    = sf::Vector2u(1920, 1080);
+
+sf::Clock deltaTime;
 
 //game-related var
 Brownian brownianManager;
@@ -80,31 +85,43 @@ void Reset() {
 }
 
 void MainGameLoop() {
+    ImGui::SFML::SetCurrentWindow(window);
+
     //polling event
     sf::Event event;
     while (window.pollEvent(event))
     {
+        ImGui::SFML::ProcessEvent(window, event);
         if (event.type == sf::Event::Closed)
             window.close();
     }
-
+    ImGui::SFML::Update(window, deltaTime.restart());
     window.clear();
 
     //doin stuff zone
     Update(event);
     Visualize(event);
+
+    ImguiMain::ImGuiMainLoop();
+
     LateUpdate(event);
 
+    //display
     window.display();
+    ImGui::SFML::Render(window);
 }
 
 int main()
 {
+    ImGui::SFML::Init(window);
+    ImGui::GetIO().IniFilename = "imgui.ini";
+
     Initialize();
     while (window.isOpen())
     {
         MainGameLoop();    
     }
 
+    ImGui::SFML::Shutdown(window);
     return 0;
 }

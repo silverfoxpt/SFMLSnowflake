@@ -22,9 +22,13 @@
 
 #include "lattice.h"
 
-struct pair_hash {
-    inline std::size_t operator()(const std::pair<int,int> & v) const {
-        return v.first*31+v.second;
+struct PairHash {
+    std::size_t operator()(const std::pair<int, int>& p) const {
+        std::size_t h1 = std::hash<int>{}(p.first);
+        std::size_t h2 = std::hash<int>{}(p.second);
+
+        // Combine the hash codes using bitwise XOR
+        return h1 ^ h2;
     }
 };
 
@@ -43,11 +47,11 @@ class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
         std::vector<std::vector<float>> d;
         //std::vector<std::vector<float>> d2;
 
-        std::set<std::pair<int, int>> inside;
-        std::set<std::pair<int, int>> boundary;
-        std::set<std::pair<int, int>> outside;
-        std::set<std::pair<int, int>> outsideBoundary;
-        std::set<std::pair<int, int>> all;
+        std::unordered_set<std::pair<int, int>, PairHash> inside;
+        std::unordered_set<std::pair<int, int>, PairHash> boundary;
+        std::unordered_set<std::pair<int, int>, PairHash> outside;
+        std::unordered_set<std::pair<int, int>, PairHash> outsideBoundary;
+        std::unordered_set<std::pair<int, int>, PairHash> all;
 
         std::vector<std::vector<std::vector<std::pair<int, int>>>> neighborIdx;
 
