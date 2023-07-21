@@ -15,6 +15,9 @@ void HexagonLattice::Initialize(sf::RenderWindow* window) {
         mid.y - this->numRows * height
     );
 
+    startingPos.x += this->offsetX; 
+    startingPos.y += this->offsetY;
+
     //create hex
     for (int col = 0; col < numCols; ++col) {
         std::vector<Hexagon> hex;

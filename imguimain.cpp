@@ -1,9 +1,11 @@
 #include "imguimain.h"
 
-void ImguiMain::Initialize(HexagonLattice* lattice, Crystal* crystal, sf::RenderWindow* window) {
+void ImguiMain::Initialize(HexagonLattice* lattice, Crystal* crystal, sf::RenderWindow* window, Brownian* brownian) {
     this->myLattice = lattice;
     this->myCrystal = crystal;
     this->window = window;
+
+    this->brownian = brownian;
 }
 
 void ImguiMain::ImGuiMainLoop() {
@@ -16,19 +18,24 @@ void ImguiMain::Settings() {
     ImGui::Begin("Settings");
 
     //choose mode
-    char* items[] = { "Snow crystal"};
-    int item_current_idx = 0; 
-    ComboBox("Mode##combomode", items, item_current_idx, IM_ARRAYSIZE(items));
+    char* items[] = { "Snow crystal", "Brownian" }; 
+    ComboBox("Mode##combomode", items, this->item_current_idx, IM_ARRAYSIZE(items));
+    
+    if (this->choice != (CurrentChoice) this->item_current_idx) {
+        this->RestartCrystal();
+        this->RestartBrownian();
+        this->choice = (CurrentChoice) this->item_current_idx;
+    }
 
-    if (item_current_idx == 0) { //snow crystal
+    if (this->item_current_idx == 0) { //snow crystal
         if (ImGui::Button("Restart")) {
-            myLattice->Reset();
-            myCrystal->Reset();
-
-            myLattice->Initialize(window);
-            myCrystal->Initialize(window, myLattice);
+            this->RestartCrystal();
         }
         SnowCrystal();
+    } else if (this->item_current_idx == 1) {
+        if (ImGui::Button("Restart##Brownian")) {
+            this->RestartBrownian();
+        }
     }
     ImGui::End();
 }
@@ -38,6 +45,8 @@ void ImguiMain::SnowCrystal() {
     ImGui::SetNextItemWidth(150); ImGui::InputFloat("Hexagon cell diameter", myLattice->getHexSize());
     ImGui::SetNextItemWidth(150); ImGui::InputInt("Number of columns", myLattice->getNumCols()); 
     ImGui::SetNextItemWidth(150); ImGui::InputInt("Number of rows", myLattice->getNumRows());
+    ImGui::SetNextItemWidth(150); ImGui::InputFloat("Offset x", myLattice->getOffsetX()); 
+    ImGui::SetNextItemWidth(150); ImGui::InputFloat("Offset Y", myLattice->getOffsetY());
 
     ImGui::Text("Crystal settings");
     ImGui::SetNextItemWidth(150); ImGui::InputFloat("rho", myCrystal->getP1());     ImGui::SameLine(150 + 100);
@@ -50,16 +59,31 @@ void ImguiMain::SnowCrystal() {
     ImGui::SetNextItemWidth(150); ImGui::InputFloat("sigma", myCrystal->getO5());   
 }
 
+void ImguiMain::RestartCrystal() {
+    myLattice->Reset();
+    myCrystal->Reset();
+
+    myLattice->Initialize(window);
+    myCrystal->Initialize(window, myLattice);
+}
+
+void ImguiMain::RestartBrownian() {
+    brownian->Reset();
+
+    brownian->Initialize(window);
+}
+
 //templates
-void ImguiMain::ComboBox(const char* label, char* items[], int& item_current_idx, int item_size) {
-    char* combo_preview_value = items[item_current_idx]; 
+void ImguiMain::ComboBox(const char* label, char* items[], int& currentIdx, int item_size) {
+    const char* combo_preview_value = items[currentIdx]; 
     if (ImGui::BeginCombo(label, combo_preview_value, 0))
     {
         for (int n = 0; n < item_size; n++)
         {
-            const bool is_selected = (item_current_idx == n);
-            if (ImGui::Selectable(items[n], is_selected))
-                item_current_idx = n;
+            const bool is_selected = (currentIdx == n);
+            if (ImGui::Selectable(items[n], is_selected)) {
+                currentIdx = n;
+            }                
 
             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
             if (is_selected)

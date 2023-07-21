@@ -53,29 +53,39 @@ void Initialize() {
     lattice.Initialize(&window);
     crystal.Initialize(&window, &lattice);
 
-    imguiMain.Initialize(&lattice, &crystal, &window);
+    imguiMain.Initialize(&lattice, &crystal, &window, &brownianManager);
 }
 
 void Update(sf::Event event) {
     UpdateTest();
 
-    //brownianManager.Update(event);
-    lattice.Update(event);
-    crystal.Update(event);
+    if (imguiMain.choice == CurrentChoice::CrystalSnow) {
+        lattice.Update(event);
+        crystal.Update(event);
+    } else if (imguiMain.choice == CurrentChoice::BrownianSnow) {
+        brownianManager.Update(event);
+    }
+    
 }
 
 void Visualize(sf::Event event) {
     VisualizeTest();
 
-    brownianManager.Visualize(event);
-    lattice.Visualize(event);
-    crystal.Visualize(event);
+    if (imguiMain.choice == CurrentChoice::CrystalSnow) {
+        lattice.Visualize(event);
+        crystal.Visualize(event);
+    } else if (imguiMain.choice == CurrentChoice::BrownianSnow) {
+        brownianManager.Visualize(event);
+    }
 }
 
 void LateUpdate(sf::Event event) {
-    brownianManager.LateUpdate();
-    lattice.LateUpdate();
-    crystal.LateUpdate();
+    if (imguiMain.choice == CurrentChoice::CrystalSnow) {
+        lattice.LateUpdate();
+        crystal.LateUpdate();
+    } else if (imguiMain.choice == CurrentChoice::BrownianSnow) {
+        brownianManager.LateUpdate();
+    }
 }
 
 void Reset() {
