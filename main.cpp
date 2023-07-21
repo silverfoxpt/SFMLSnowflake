@@ -15,7 +15,14 @@ Rand Randomize::rand;
 
 //public vars
 sf::RenderWindow window(sf::VideoMode(800, 800), "SFML Snowflake");
+sf::Clock deltaTime;
 
+//game-related var
+Brownian brownianManager;
+HexagonLattice lattice;
+Crystal crystal;
+
+//static vars
 float GameManager::windowWidth                  = window.getSize().x;
 float GameManager::windowHeight                 = window.getSize().y;
 float GameManager::deltaTime                    = 1/300.0;
@@ -23,12 +30,8 @@ float GameManager::deltaTime                    = 1/300.0;
 sf::Vector2u GameManager::mainWindowSize        = sf::Vector2u(800, 800);
 sf::Vector2u GameManager::originalResolution    = sf::Vector2u(1920, 1080);
 
-sf::Clock deltaTime;
-
-//game-related var
-Brownian brownianManager;
-HexagonLattice lattice;
-Crystal crystal;
+Crystal* ImguiMain::myCrystal                   = (&crystal);
+HexagonLattice* ImguiMain::myLattice            = (&lattice);
 
 //test vars
 

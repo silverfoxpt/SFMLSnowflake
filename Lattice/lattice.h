@@ -24,7 +24,7 @@ class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
         sf::RenderWindow* window;
 
         //settings
-        sf::Vector2f startingPos = sf::Vector2f(70, 70);
+        sf::Vector2f startingPos;
         float hexSize = 3.0f;
         int numRows = 199;
         int numCols = 199;
@@ -40,6 +40,10 @@ class HexagonLattice : Monobehaviour<sf::RenderWindow*> {
 
         Hexagon* getMidHex();
         Hexagon* getHexAtIndex(int col, int row);
+
+        float* getHexSize() { return &this->hexSize; }
+        int* getNumRows() { return &this->numRows; }
+        int* getNumCols() { return &this->numCols; }
 
     private:
         Hexagon createHexagon(float size, sf::Vector2f position, int col, int row);

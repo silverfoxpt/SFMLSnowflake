@@ -1,13 +1,42 @@
 #include "imguimain.h"
 
 void ImguiMain::ImGuiMainLoop() {
+    Settings();
+}
+
+//custom
+void ImguiMain::Settings() {
     ImGui::Begin("Settings");
 
     //choose mode
-    const char* items[] = { "Snow crystal"};
-    static int item_current_idx = 0; 
-    const char* combo_preview_value = items[item_current_idx]; 
-    if (ImGui::BeginCombo("Mode##modecombo", combo_preview_value, 0))
+    char* items[] = { "Snow crystal"};
+    int item_current_idx = 0; 
+    ComboBox("Mode##combomode", items, item_current_idx);
+
+    if (item_current_idx == 0) { //snow crystal
+        SnowCrystal();
+    }
+
+    ImGui::End();
+}
+
+void ImguiMain::SnowCrystal() {
+    ImGui::Spacing();
+
+    ImGui::Text("Size settings");
+    ImGui::InputFloat("Hexagon cell diameter", myLattice->getHexSize());
+    ImGui::InputInt("Number of columns", myLattice->getNumCols());
+    ImGui::InputInt("Number of rows", myLattice->getNumRows());
+
+    ImGui::Spacing();
+    ImGui::Text("Crystal settings");
+    ImGui::InputFloat("\u03C1", myCrystal->getP1());
+}
+
+//templates
+int ImguiMain::ComboBox(const char* label, char* items[], int& item_current_idx) {
+    char* combo_preview_value = items[item_current_idx]; 
+    if (ImGui::BeginCombo(label, combo_preview_value, 0))
     {
         for (int n = 0; n < IM_ARRAYSIZE(items); n++)
         {
@@ -20,16 +49,5 @@ void ImguiMain::ImGuiMainLoop() {
                 ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
-    }    
-
-    if (item_current_idx == 0) { //snow crystal
-        SnowCrystal();
     }
-
-    ImGui::End();
-}
-
-void ImguiMain::SnowCrystal() {
-    ImGui::Spacing();
-    
 }

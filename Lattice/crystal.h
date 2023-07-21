@@ -75,6 +75,8 @@ class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
         void LateUpdate() override;
         void Reset() override;
 
+        float* getP1() { return &this->p1; }
+
     private:
         void Diffusion();
         void Freezing();
