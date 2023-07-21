@@ -12,9 +12,16 @@
 #include <memory>
 #include <chrono>
 
+#include "IMGUI/imgui.h"
+#include "IMGUI/imgui-SFML.h"
+
 class ImguiMain {
     public:
         static void ImGuiMainLoop();
+
+    private:
+        static void SnowCrystal();
+
 };
 
 #endif

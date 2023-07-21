@@ -1,5 +1,7 @@
 #include "gameManager.h"
 
+sf::Vector2u GameManager::adjustedMainWindowSize = sf::Vector2u(800, 800);
+
 sf::Vector2f GameManager::convertWorldToScreen(sf::Vector2f world) {
     return sf::Vector2f(world.x, -world.y);
 }
@@ -19,4 +21,6 @@ void GameManager::InitializeWindowWithResolution(sf::RenderWindow* mainWindow) {
     sf::Vector2u windowSize(static_cast<unsigned int>(mainWindow->getSize().x * scaleX),
                             static_cast<unsigned int>(mainWindow->getSize().y * scaleY));
     mainWindow->setSize(windowSize);
+
+    adjustedMainWindowSize = windowSize;
 }

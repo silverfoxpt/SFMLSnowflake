@@ -23,6 +23,8 @@ class GameManager {
         static sf::Vector2u mainWindowSize;
         static sf::Vector2u originalResolution;
 
+        static sf::Vector2u adjustedMainWindowSize;
+
         static sf::Vector2f convertWorldToScreen(sf::Vector2f world);
         static sf::Vector2f convertScreenToWorld(sf::Vector2f screen);
 

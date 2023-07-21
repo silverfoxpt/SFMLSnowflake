@@ -3,11 +3,19 @@
 void HexagonLattice::Initialize(sf::RenderWindow* window) {
     this->window = window;
 
-    //create hex
+    //some settings
     float radius = this->hexSize / 2.0f;
     float spaceBetweenCrack = (radius / 2.0f) * (std::tan(Math::toRad(15))) * 2;
     float height = sqrt(radius * radius - (radius/2) * (radius/2));
 
+    //calculate start pos
+    sf::Vector2f mid(GameManager::mainWindowSize.x / 2, GameManager::mainWindowSize.y / 2);
+    this->startingPos = sf::Vector2f(
+        mid.x - this->numCols / 2.0 * radius - this->numCols / 2.0 * radius / 2.0, 
+        mid.y - this->numRows * height
+    );
+
+    //create hex
     for (int col = 0; col < numCols; ++col) {
         std::vector<Hexagon> hex;
         this->hexagons.push_back(hex);

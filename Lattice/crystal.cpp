@@ -85,10 +85,8 @@ void Crystal::Visualize(sf::Event event) {
         //calculate value
         float value = 
             std::min((double) maxValue, this->c[idx.first][idx.second] + this->d[idx.first][idx.second] * 1.5) / maxValue;
-        uint8_t blue = static_cast<uint8_t>(255 - (value * 255));
 
         hex->ChangeColor(this->GetColorFromLightness(1 - value));
-        //hex->ChangeColor(sf::Color::Cyan);
     }
 }
 

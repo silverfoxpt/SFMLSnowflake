@@ -8,9 +8,6 @@
 #include "Lattice/lattice.h"
 #include "Lattice/crystal.h"
 
-#include "IMGUI/imgui.h"
-#include "IMGUI/imgui-SFML.h"
-
 #include "imguimain.h"
 
 //really early stuff initialization
@@ -107,8 +104,8 @@ void MainGameLoop() {
     LateUpdate(event);
 
     //display
-    window.display();
     ImGui::SFML::Render(window);
+    window.display();
 }
 
 int main()
