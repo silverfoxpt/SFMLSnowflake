@@ -174,7 +174,7 @@ void Crystal::Attachment() {
         }
         
         //if 3
-        if (nt == 3) {
+        else if (nt == 3) {
             if (this->b[hex.first][hex.second] >= 1 
                 || (boundaryMass < this->o3 && this->b[hex.first][hex.second] >= this->a3)) 
             {
@@ -184,7 +184,7 @@ void Crystal::Attachment() {
         }
 
         //if 4 to 6
-        if (nt >= 4) {
+        else if (nt >= 4) {
             //add crystal
             toAdd.push_back(hex);
         }

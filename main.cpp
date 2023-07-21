@@ -21,6 +21,7 @@ sf::Clock deltaTime;
 Brownian brownianManager;
 HexagonLattice lattice;
 Crystal crystal;
+ImguiMain imguiMain;
 
 //static vars
 float GameManager::windowWidth                  = window.getSize().x;
@@ -29,9 +30,6 @@ float GameManager::deltaTime                    = 1/300.0;
 
 sf::Vector2u GameManager::mainWindowSize        = sf::Vector2u(800, 800);
 sf::Vector2u GameManager::originalResolution    = sf::Vector2u(1920, 1080);
-
-Crystal* ImguiMain::myCrystal                   = (&crystal);
-HexagonLattice* ImguiMain::myLattice            = (&lattice);
 
 //test vars
 
@@ -54,6 +52,8 @@ void Initialize() {
     brownianManager.Initialize(&window);
     lattice.Initialize(&window);
     crystal.Initialize(&window, &lattice);
+
+    imguiMain.Initialize(&lattice, &crystal, &window);
 }
 
 void Update(sf::Event event) {
@@ -101,10 +101,9 @@ void MainGameLoop() {
     //doin stuff zone
     Update(event);
     Visualize(event);
-
-    ImguiMain::ImGuiMainLoop();
-
     LateUpdate(event);
+
+    imguiMain.ImGuiMainLoop();
 
     //display
     ImGui::SFML::Render(window);

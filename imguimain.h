@@ -20,19 +20,22 @@
 
 class ImguiMain {
     public:
-        static void ImGuiMainLoop();
+        void Initialize(HexagonLattice* lattice, Crystal* crystal, sf::RenderWindow* window);
+        void ImGuiMainLoop();
 
         //custom variables - don't copy this!
-        static HexagonLattice* myLattice;
-        static Crystal* myCrystal;
+        HexagonLattice* myLattice;
+        Crystal* myCrystal;
+        sf::RenderWindow* window;
 
     private:
         //template
-        static int ComboBox(const char* label, char* items[], int& item_current_idx);
+        void ComboBox(const char* label, char* items[], int& item_current_idx, int item_size);
 
         //custom methods - don't copy this!
-        static void Settings();
-        static void SnowCrystal();
+        void Settings();
+        void Actions();
+        void SnowCrystal();
 
 };
 

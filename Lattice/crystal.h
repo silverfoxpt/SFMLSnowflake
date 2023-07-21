@@ -76,6 +76,13 @@ class Crystal: Monobehaviour<sf::RenderWindow*, HexagonLattice*> {
         void Reset() override;
 
         float* getP1() { return &this->p1; }
+        float* getK2() { return &this->k2; }
+        float* getB3() { return &this->b3; }
+        float* getO3() { return &this->o3; }
+        float* getA3() { return &this->a3; }
+        float* getU4() { return &this->u4; }
+        float* getY4() { return &this->y4; }
+        float* getO5() { return &this->o5; }
 
     private:
         void Diffusion();
