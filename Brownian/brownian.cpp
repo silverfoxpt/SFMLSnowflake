@@ -2,7 +2,7 @@
 
 void Brownian::Initialize(sf::RenderWindow* window) {
     this->window = window;
-    this->centerPoint = GameManager::convertScreenToWorld(center);
+    this->centerPoint = GameManager::convertScreenToWorld(center + offset);
     this->vertices = sf::VertexArray(sf::Triangles);
 
     //populate point and their position

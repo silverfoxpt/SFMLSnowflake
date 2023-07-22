@@ -36,6 +36,7 @@ void ImguiMain::Settings() {
         if (ImGui::Button("Restart##Brownian")) {
             this->RestartBrownian();
         }
+        BrownianSnow();
     }
     ImGui::End();
 }
@@ -57,6 +58,19 @@ void ImguiMain::SnowCrystal() {
     ImGui::SetNextItemWidth(150); ImGui::InputFloat("mu", myCrystal->getU4());      
     ImGui::SetNextItemWidth(150); ImGui::InputFloat("gamma", myCrystal->getY4());   ImGui::SameLine(150 + 100);
     ImGui::SetNextItemWidth(150); ImGui::InputFloat("sigma", myCrystal->getO5());   
+}
+
+void ImguiMain::BrownianSnow() {
+    ImGui::Text("Settings");
+    ImGui::SetNextItemWidth(150); ImGui::InputFloat("Max distance from center", brownian->getMaxDistanceFromCenter());
+    ImGui::SetNextItemWidth(150); ImGui::InputFloat("Center X##Brownian", brownian->getCenterX());
+    ImGui::SetNextItemWidth(150); ImGui::InputFloat("Center Y##Brownian", brownian->getCenterY());
+    ImGui::SetNextItemWidth(150); ImGui::InputFloat("Offset X##Brownian", brownian->getOffsetX());
+    ImGui::SetNextItemWidth(150); ImGui::InputFloat("Offset Y##Brownian", brownian->getOffsetY());
+
+    ImGui::Spacing();
+    ImGui::SetNextItemWidth(150); ImGui::InputInt("Particle per quadrant", brownian->getNumParticlePerQuadrant()); 
+    ImGui::SetNextItemWidth(150); ImGui::InputInt("Number of quadrants", brownian->getTotalNumQuadrant()); 
 }
 
 void ImguiMain::RestartCrystal() {

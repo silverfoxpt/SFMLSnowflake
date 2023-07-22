@@ -25,8 +25,9 @@ enum BrownianTravelPhase {
 class Brownian : public Monobehaviour<sf::RenderWindow*> {
     public:
         //settings
-        float maxDistanceFromCenter         = 400;
+        float maxDistanceFromCenter         = 350;
         sf::Vector2f center                 = sf::Vector2f(400, 400);
+        sf::Vector2f offset                 = sf::Vector2f(0, -75);
 
         int totalParticlePerQuadrant        = 500; // if -1 then unlimited
         int totalNumQuadrant                = 6;
@@ -52,9 +53,17 @@ class Brownian : public Monobehaviour<sf::RenderWindow*> {
         void Update(sf::Event event)        override;
         void Visualize(sf::Event event)     override;
         void LateUpdate()                   override;
-        void Reset()                        override;
+        void Reset()                        override; 
 
         void CalculateVertices(sf::VertexArray &array, sf::Vector2f point, sf::Color color);
+
+        float* getMaxDistanceFromCenter()   { return &this->maxDistanceFromCenter;}
+        float* getCenterX()                 { return &this->center.x; }
+        float* getCenterY()                 { return &this->center.y; }
+        float* getOffsetX()                 { return &this->offset.x; }
+        float* getOffsetY()                 { return &this->offset.y; }
+        int* getNumParticlePerQuadrant()    { return &this->totalParticlePerQuadrant;}
+        int* getTotalNumQuadrant()          { return &this->totalNumQuadrant;}
 };  
 
 #endif

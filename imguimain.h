@@ -47,6 +47,7 @@ class ImguiMain {
         //custom methods - don't copy this!
         void Settings();
         void SnowCrystal();
+        void BrownianSnow();
 
         void RestartCrystal();
         void RestartBrownian();
